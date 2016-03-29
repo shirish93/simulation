@@ -1,6 +1,9 @@
 
 ![](http://i.imgur.com/O89JmOd.gif)
 
+
+THIS IS A FORK OF NICKY CASE's SIMULATION!!!
+
 An interactive guide to thinking in systems.
 **[READ/PLAY HERE](http://ncase.me/simulating)**
 
