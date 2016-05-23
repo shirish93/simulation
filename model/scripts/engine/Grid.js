@@ -195,6 +195,25 @@ Grid.updateAgents = function(){
 	}
 
 };
+
+Grid.countAgents = function(){
+	
+	var numAgents = Model.data.states.length;
+	var agentCount = Array(numAgents);
+	for (var i = agentCount.length-1; i >= 0; -- i) agentCount[i] = 0;
+	// Update ONLY if the emoji is different
+	for(var y=0;y<Grid.array.length;y++){
+		for(var x=0;x<Grid.array[0].length;x++){
+			var agent = Grid.array[y][x];
+			agentCount[agent.stateID]+=1;
+		}
+	}
+	return agentCount;
+
+};
+
+
+
 subscribe("/grid/updateAgents",Grid.updateAgents);
 
 /////////////////////////////
