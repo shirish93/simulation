@@ -41,6 +41,9 @@ as well as serialize & deserialize.
 
 		// Publish
 		publish("/model/init");
+		
+		//window.myLiveChart = new Chart(ctx).Line(startingData, {animationSteps: 15});
+
 
 	};
 

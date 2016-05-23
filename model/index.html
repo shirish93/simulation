@@ -1,7 +1,7 @@
 <!doctype>
 <html>
 <head>
-	
+
 	<!-- Meta -->
 	<title>A Simulation In Emoji</title>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
@@ -15,6 +15,7 @@
 </head>
 <body>
 
+
 	<!-- The grid. Inline CSS so grid can change, shuddup. -->
 	<style id="ui_style"></style>
 	<style id="grid_style"></style>
@@ -26,7 +27,7 @@
 	<!-- Play/Pause/Reset/Step/Draw controls -->
 	<div id="play_container">
 		<div id="play_controls">
-			
+
 			<!-- New Board -->
 			<div class="control_button" id="play_reset">reset</div>
 			<div class="control_divider"></div>
@@ -46,15 +47,20 @@
 			<div class="control_button" id="play_draw">draw <div></div></div>
 
 		</div>
+		
+
 	</div>
 
 	<!-- The big honkin' editor -->
 	<div id="editor_container">
 		<div id="editor"></div>
-	</div>
+	</div-->
 
 </body>
 </html>
+<!--Graphcs Library -->
+<script src="../scripts/Chart.min.js"></script>
+
 
 <!-- External Libraries -->
 <script src="scripts/libraries/rAF.js"></script>
@@ -62,6 +68,7 @@
 <script src="scripts/libraries/firebase.min.js"></script>
 <script src="scripts/libraries/reqwest.min.js"></script>
 <script src="scripts/libraries/perfect-scrollbar.min.js"></script>
+
 <!--script src="scripts/libraries/promise.js"></script-->
 <!--script src="scripts/libraries/stats.min.js"></script-->
 
@@ -81,3 +88,4 @@
 <script src="../scripts/platform.js"></script>
 <script src="../scripts/emojiTest.js"></script>
 <script src="scripts/libraries/emojiFallback.js"></script>
+

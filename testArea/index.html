@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <script src="../scripts/Chart.min.js"></script>
+</head>
+
+<body>
+
+  <div class="example">
+    <div id="title">
+      <b>A Forest</b> With Thunderbolt &amp; Lightning, Very Very Frightening
+    </div>
+    <iframe src="../model/index.html" style="width: 90%; height: 600px"></iframe>
+    <div id="example_link"></div>
+  </div>
+
+
+  <canvas id="updating-chart" style="width: 90%; height: 400px"></canvas>
+
+  <script>
+  
+    var getZeroArr = function(n){
+      return Array.apply(null, Array(n)).map(Number.prototype.valueOf,0)
+    }
+    var IFrameWin;
+    var canvas = document.getElementById('updating-chart'),
+      ctx = canvas.getContext('2d'),
+      startingData = {
+        labels: getZeroArr(100),
+        datasets: [{
+          fillColor: "rgba(220,220,220,0.2)",
+          strokeColor: "rgba(220,220,220,1)",
+          //pointColor: "rgba(220,220,220,1)",
+          pointStrokeColor: "#fff",
+          data: getZeroArr(100)
+        }, {
+          fillColor: "rgba(151,187,205,0.2)",
+          strokeColor: "rgba(151,187,205,1)",
+          //pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: getZeroArr(100)
+        }]
+      },
+      latestLabel = '';
+
+    // Reduce the animation steps for demo clarity.
+    var myLiveChart = new Chart(ctx).Line(startingData, {
+      animationSteps: 3
+    });
+
+    setInterval(function() {
+      // Add two random numbers for each dataset
+      results = IFrameWin.Grid.countAgents();
+      myLiveChart.addData([results[0], results[2]], '');
+      // Remove the first point so we dont just add values forever
+      myLiveChart.removeData();
+    }, 200);
+    
+    window.notifyParent = function(){
+      console.log("The child has loaded inside iFrameWin!")
+      console.log(IFrameWin)
+      //console.log(IFrameWin.Grid.countAgents());
+    }
+  </script>
+</body>
+
+</html>

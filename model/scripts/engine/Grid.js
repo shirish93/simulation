@@ -27,6 +27,14 @@ Grid.initialize = function(){
 		agents[i].forceState(_getProportionalRandom());
 	}
 
+	if (typeof parent != 'undefined'){
+		
+		parent.IFrameWin = window;
+		parent.notifyParent();
+	}
+	
+	
+
 };
 var _getProportionalRandom = function(){
 
