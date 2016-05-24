@@ -3,10 +3,9 @@
 
 <head>
   <meta charset="utf-8">
-  <title>JS Bin</title>
+  <title>Simulation with graph</title>
   <script src="../scripts/Chart.min[1].js"></script>
 </head>
-
 <body>
 
   <div class="example">
@@ -19,54 +18,47 @@
 
 
   <canvas id="updating-chart" style="width: 90%; height: 400px"></canvas>
-
-  <script>
+  <div id="legend"></div>
   
-    var getZeroArr = function(n){
-      return Array.apply(null, Array(n)).map(Number.prototype.valueOf,0)
-    }
-    var IFrameWin;
-    var canvas = document.getElementById('updating-chart'),
-      ctx = canvas.getContext('2d'),
-      startingData = {
-        labels: getZeroArr(100),
-        datasets: [{
-          fillColor: "rgba(220,220,220,0.2)",
-          strokeColor: "rgba(220,220,220,1)",
-          //pointColor: "rgba(220,220,220,1)",
-          pointStrokeColor: "#fff",
-          data: getZeroArr(100)
-        }, {
-          fillColor: "rgba(151,187,205,0.2)",
-          strokeColor: "rgba(151,187,205,1)",
-          //pointColor: "rgba(151,187,205,1)",
-          pointStrokeColor: "#fff",
-          scaleUse2Y: true,
-          data: getZeroArr(100)
-        }]
-      },
-      latestLabel = '';
+  <script src = "chart.js"></script>
 
-    // Reduce the animation steps for demo clarity.
-    var myLiveChart = new Chart(ctx).Line(startingData, {
-      animationSteps: 3,
-      scaleUse2Y: true
-    });
-
-    setInterval(function() {
-      // Add two random numbers for each dataset
-      results = IFrameWin.Grid.countAgents();
-      myLiveChart.addData([results[0], results[2]], '');
-      // Remove the first point so we dont just add values forever
-      myLiveChart.removeData();
-    }, 200);
-    
-    window.notifyParent = function(){
-      console.log("The child has loaded inside iFrameWin!")
-      console.log(IFrameWin)
-      //console.log(IFrameWin.Grid.countAgents());
+<style type="text/css">
+  .boxx{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+}
+	
+ul {
+  list-style: none;
+}
+ul li {
+  display: block;
+  padding-left: 30px;
+  position: relative;
+  margin-bottom: 4px;
+  border-radius: 5px;
+  padding: 2px 8px 2px 28px;
+  font-size: 14px;
+  cursor: default;
+  -webkit-transition: background-color 200ms ease-in-out;
+  -moz-transition: background-color 200ms ease-in-out;
+  -o-transition: background-color 200ms ease-in-out;
+  transition: background-color 200ms ease-in-out;
+}
+li span {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  border-radius: 5px;
+}
+#chart-area > *{
+  float:left
     }
-  </script>
+</style>
 </body>
-
 </html>
