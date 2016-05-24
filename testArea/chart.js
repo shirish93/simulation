@@ -1,5 +1,5 @@
 var IFrameWin;
-var legendHolder = document.createElement('div');
+var legendHolder =[];
 window.Agents = [];
 var myLiveChart;
 
@@ -61,7 +61,10 @@ function startChart(){
         scaleUse2Y: true
     });
 
+    legendHolder = document.createElement('div');
     legendHolder.innerHTML = myLiveChart.generateLegend();
+
+    document.getElementById("legend").innerHTML = "";
     document.getElementById('legend').appendChild(legendHolder.firstChild);
 
     setInterval(function() {

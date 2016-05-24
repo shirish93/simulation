@@ -137,6 +137,7 @@ as well as serialize & deserialize.
 				return;
 			}
 		}
+		console.log("notified parent after roming state");
 	};
 	Model.generateNewID = function(){
 		var highestID = -1;

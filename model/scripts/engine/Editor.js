@@ -59,6 +59,7 @@ Editor.create = function(){
 		// Hey y'all
 		publish("/ui/addState",[newStateConfig.id]);
 		publish("/ui/updateStateHeaders");
+		parent.notifyParent();
 
 	};
 	Editor.dom.appendChild(addState);
@@ -299,9 +300,11 @@ Editor.createStateUI = function(stateConfig){
 				publish("/ui/removeState",[stateConfig.id]); // remove state
 				publish("/ui/updateStateHeaders"); // update state headers
 				Editor.statesDOM.removeChild(dom); // and, remove this DOM child
+				parent.notifyParent();
 			};
 		})(stateConfig);
 		stateHeader.appendChild(deleteDOM);
+		//
 	}
 
 	// Description
