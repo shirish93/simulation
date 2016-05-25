@@ -1,12 +1,17 @@
 (function(exports){
 
+//Count of agents
+var agentCount = [];
+
+
 // Singleton Class
 exports.Grid = {};
 
 // Initialize
 Grid.initialize = function(){
-
+	
 	// Grid size
+	
 	var WIDTH = Model.data.world.size.width;
 	var HEIGHT = Model.data.world.size.height;
 
@@ -28,8 +33,8 @@ Grid.initialize = function(){
 	}
 
 	if (typeof parent != 'undefined'){
-		
 		parent.IFrameWin = window;
+		parent.subscribe = subscribe;
 		parent.notifyParent();
 	}
 	
@@ -186,6 +191,16 @@ subscribe("/grid/updateSize",Grid.updateSize,false);
 subscribe("ui/resize",Grid.updateSize,false);
 
 Grid.updateAgents = function(){
+	
+	var numAgents = Model.data.states.length; 
+	agentCount = Array(numAgents);
+	var agentIDtoID = {}, count = 0;
+	for (var i = agentCount.length-1; i >= 0; -- i) agentCount[i] = 0;
+	for (var each in Model.data.states){
+		agentIDtoID[each] = count;
+		count++;
+	} 
+
 
 	// Update ONLY if the emoji is different
 	for(var y=0;y<Grid.array.length;y++){
@@ -198,26 +213,15 @@ Grid.updateAgents = function(){
 			if(icon!=currentIcon){
 				Grid.dom.children[y].children[x].innerHTML = icon;
 			}
+			agentCount[agentIDtoID[agent.stateID]]+=1;
 			
 		}
 	}
-
 };
 
-Grid.countAgents = function(){
-	
-	var numAgents = Model.data.states.length;
-	var agentCount = Array(numAgents);
-	for (var i = agentCount.length-1; i >= 0; -- i) agentCount[i] = 0;
-	// Update ONLY if the emoji is different
-	for(var y=0;y<Grid.array.length;y++){
-		for(var x=0;x<Grid.array[0].length;x++){
-			var agent = Grid.array[y][x];
-			agentCount[agent.stateID]+=1;
-		}
-	}
-	return agentCount;
 
+Grid.countAgents = function(){
+	return agentCount;
 };
 
 
@@ -312,6 +316,7 @@ Grid.countNeighbors = function(agent,stateID){
 	var neighbors = Grid.getNeighbors(agent);
 	for(var i=0;i<neighbors.length;i++){
 		if(neighbors[i].stateID==stateID) count++;
+		Model.getStateByID
 	}
 	return count;
 };

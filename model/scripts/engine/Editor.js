@@ -304,7 +304,7 @@ Editor.createStateUI = function(stateConfig){
 			};
 		})(stateConfig);
 		stateHeader.appendChild(deleteDOM);
-		//
+		//console.log(subscribe);
 	}
 
 	// Description
@@ -768,6 +768,7 @@ Editor.createProportions = function(){
 		_createSnapshot();
 		selectedIndex = -1;
 		_adjustAll();
+		console.log("stateHeaderChanged");
 
 	});
 

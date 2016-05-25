@@ -2,6 +2,7 @@ var IFrameWin;
 var legendHolder =[];
 window.Agents = [];
 var myLiveChart;
+window.subscribe;
 
 var getZeroArr = function(n) {
     return Array.apply(null, Array(n)).map(Number.prototype.valueOf, 0)
@@ -16,6 +17,7 @@ var readyFunc = function() {
 var getRandomColor = function() {
     return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
 };
+
 
 function convertHex(hex, opacity) {
     hex = hex.replace('#', '');
@@ -42,7 +44,7 @@ function setupChartData() {
     for (var i = 0; i < agents.length; i++) {
         var myColor = getRandomColor();
         var thisAgent = {
-            label: agents[i].name,
+            label: agents[i].name + " ("+agents[i].icon + ")",
             fillColor: convertHex(myColor, 0.2),
             pointColor: convertHex(myColor, 1),
             strokeColor: myColor,
@@ -52,6 +54,23 @@ function setupChartData() {
         data.push(thisAgent);
     }
     startingData.datasets = data;
+}
+
+function registerLabelsChanged(){
+    subscribe("/ui/updateStateHeaders", function(){
+        /*
+        var labels = [];
+        var agents = IFrameWin.Model.data.states;
+        for (var i=0; i<agents.length; i++){
+            labels.push(agents[i].name + " ("+agents[i].in0272436con + ")");
+        }
+        console.log(labels);
+        //myLiveChart.config.data.labels = labels
+        //myLiveChart.update()*/
+    })
+    
+
+    
 }
 
 function startChart(){
@@ -79,8 +98,19 @@ function startChart(){
 window.notifyParent = function() {
     console.log("The child has loaded inside iFrameWin!")
     readyFunc = IFrameWin.Grid.countAgents;
+    
+
     window.Agents = IFrameWin.Model.data.states;
+    window.subscrbe = IFrameWin.subscribe;
+
 
     setupChartData();
     startChart();
+    registerLabelsChanged();
+    started = true;
 }
+/*subscribe("ui/updateStateHeaders",function(title, message){
+        console.log("I LEARNED HOW TO SUBSCRIBE!"); 
+        console.log(title);
+        console.log(message);
+});*/
