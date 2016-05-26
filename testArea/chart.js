@@ -58,19 +58,21 @@ function setupChartData() {
 
 function registerLabelsChanged(){
     subscribe("/ui/updateStateHeaders", function(){
-        /*
+        myLiveChart.datasets
+        
         var labels = [];
         var agents = IFrameWin.Model.data.states;
         for (var i=0; i<agents.length; i++){
-            labels.push(agents[i].name + " ("+agents[i].in0272436con + ")");
+            var name = agents[i].name + " ("+agents[i].icon + ")";
+            myLiveChart.datasets[i].label = name;
         }
-        console.log(labels);
-        //myLiveChart.config.data.labels = labels
-        //myLiveChart.update()*/
-    })
-    
+            legendHolder = document.createElement('div');
+    legendHolder.innerHTML = myLiveChart.generateLegend();
 
-    
+    document.getElementById("legend").innerHTML = "";
+    document.getElementById('legend').appendChild(legendHolder.firstChild);
+
+    })
 }
 
 function startChart(){
