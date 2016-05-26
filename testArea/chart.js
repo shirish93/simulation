@@ -142,7 +142,8 @@ var stateRemoved = function (oldStateID){
             index = i;
         }
     }
-    
+    myLiveChart.data.datasets.splice(i,1);
+    myLiveChart.update();
 }
 window.notifyParent = function() {
     console.log("The child has loaded inside iFrameWin!")
@@ -161,4 +162,5 @@ window.notifyParent = function() {
 
 function registerEvents(){
     subscribe("/ui/addState",newStateAdded);
+    subscribe("/ui/removeState",stateRemoved);
 }
