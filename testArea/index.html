@@ -4,25 +4,44 @@
 <head>
   <meta charset="utf-8">
   <title>Simulation with graph</title>
-  <script src="../scripts/Chart.min[1].js"></script>
+  <!--script src="../scripts/Chart.min[1].js"></script-->
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+
 </head>
+
 <body>
 
-  <div class="example">
+  <div><!--class="example" style = 'overflow: hidden'-->
     <div id="title">
       <b>A Forest</b> With Thunderbolt &amp; Lightning, Very Very Frightening
     </div>
-    <iframe src="../model/index.html" style="width: 90%; height: 600px"></iframe>
+    <iframe src="../model/index.html" style="width: 70%; height: 600px; float:left" seamless='seamless' frameBorder="0"></iframe>
     <div id="example_link"></div>
+
+    <div style="width: 30%; height: 400px; float:right; padding:10px">
+    <canvas id="updating-chart" ></canvas>
+    <div class = "chart-legend">
+    <div id="legend"></div>
+    </div>
+    </div>
   </div>
 
+  <script src="../model/scripts/libraries/minpubsub.js"></script>
+  <script src="chart.js"></script>
 
-  <canvas id="updating-chart" style="width: 90%; height: 400px"></canvas>
-  <div id="legend"></div>
-
-  <script src = "../model/scripts/libraries/minpubsub.js"></script>
-  
-  <script src = "chart.js"></script>
+  <style>
+    #updating-chart > * {
+      float: left
+    }
+    
+    .chart-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+  </style>
 
 </body>
+
 </html>

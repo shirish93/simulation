@@ -59,7 +59,7 @@ Editor.create = function(){
 		// Hey y'all
 		publish("/ui/addState",[newStateConfig.id]);
 		publish("/ui/updateStateHeaders");
-		parent.notifyParent();
+		//parent.notifyParent();
 
 	};
 	Editor.dom.appendChild(addState);

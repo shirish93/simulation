@@ -29,10 +29,15 @@ function convertHex(hex, opacity) {
     return result;
 }
 
+var tempArr=[]
+for (var i=0;i<100;i++){
+    tempArr.push("")
+}
+
 var canvas = document.getElementById('updating-chart'),
     ctx = canvas.getContext('2d'),
     startingData = {
-        labels: getZeroArr(100),
+        labels: tempArr ,
         datasets: []
     },
     latestLabel = '';
@@ -40,63 +45,105 @@ var canvas = document.getElementById('updating-chart'),
 
 function setupChartData() {
     var agents = IFrameWin.Model.data.states;
-    var data = []
+    var dataz = []
     for (var i = 0; i < agents.length; i++) {
         var myColor = getRandomColor();
         var thisAgent = {
+            
+            
             label: agents[i].name + " ("+agents[i].icon + ")",
-            fillColor: convertHex(myColor, 0.2),
+            borderColor: myColor,//convertHex(myColor, 0.2),
             pointColor: convertHex(myColor, 1),
-            strokeColor: myColor,
             pointStrokeColor: "#fff",
+            fill: true,
+            pointRadius: 0,
             data: getZeroArr(100)
+            
         }
-        data.push(thisAgent);
+        dataz.push(thisAgent);
     }
-    startingData.datasets = data;
+    startingData.datasets = dataz;
 }
+
 
 function registerLabelsChanged(){
     subscribe("/ui/updateStateHeaders", function(){
-        myLiveChart.datasets
         
         var labels = [];
         var agents = IFrameWin.Model.data.states;
+        console.log(agents.length);
         for (var i=0; i<agents.length; i++){
+            
             var name = agents[i].name + " ("+agents[i].icon + ")";
-            myLiveChart.datasets[i].label = name;
+            myLiveChart.data.datasets[i].label = name;
+            
         }
-            legendHolder = document.createElement('div');
-    legendHolder.innerHTML = myLiveChart.generateLegend();
-
-    document.getElementById("legend").innerHTML = "";
-    document.getElementById('legend').appendChild(legendHolder.firstChild);
-
+        myLiveChart.update();
     })
 }
+Chart.defaults.global.tooltips.enabled = false;
 
 function startChart(){
     // Reduce the animation steps for demo clarity.
-    window.myLiveChart = new Chart(ctx).Line(startingData, {
-        animationSteps: 20,
-        scaleUse2Y: true
+    window.myLiveChart = new Chart(ctx, {
+        animationSteps: 5,
+        type: "line",
+        scaleUse2Y: true,
+        data: startingData,
+        
     });
 
+/*    
     legendHolder = document.createElement('div');
     legendHolder.innerHTML = myLiveChart.generateLegend();
 
     document.getElementById("legend").innerHTML = "";
     document.getElementById('legend').appendChild(legendHolder.firstChild);
-
+*/
     setInterval(function() {
-        // Add two random numbers for each dataset
         var results = IFrameWin.Grid.countAgents();
-        myLiveChart.addData(results, '');
-        // Remove the first point so we dont just add values forever
-        myLiveChart.removeData();
+        
+        for (var i=0;i<results.length;i++){
+            
+            myLiveChart.data.datasets[i].data.shift();
+            myLiveChart.data.datasets[i].data.push(results[i]);
+        }
+        myLiveChart.update();
     }, 200);    
 }
 
+var toDelData = [];
+var newStateAdded = function(newStateID){
+    console.log("New state was added!")
+
+    var myColor = getRandomColor();
+    var agent = IFrameWin.Model.getStateByID(newStateID)
+    var thisAgent = {
+            label: agent.name + " ("+agent.icon + ")",
+            borderColor: myColor,//convertHex(myColor, 0.2),
+            pointColor: convertHex(myColor, 1),
+            pointStrokeColor: "#fff",
+            fill: true,
+            pointRadius: 0,
+            data: getZeroArr(100)
+            
+    }
+    myLiveChart.data.datasets.push(thisAgent);
+    console.log("got tis far");
+    myLiveChart.update();
+}
+
+var stateRemoved = function (oldStateID){
+    console.log("an existing state was removed!");
+    var agents = IFrameWin.Model.data.states;
+    var index = 0;
+    for (var i=0; i<agents.length; i++){
+        if (oldStateID.id == i){
+            index = i;
+        }
+    }
+    
+}
 window.notifyParent = function() {
     console.log("The child has loaded inside iFrameWin!")
     readyFunc = IFrameWin.Grid.countAgents;
@@ -108,11 +155,10 @@ window.notifyParent = function() {
 
     setupChartData();
     startChart();
+    registerEvents();
     registerLabelsChanged();
-    started = true;
 }
-/*subscribe("ui/updateStateHeaders",function(title, message){
-        console.log("I LEARNED HOW TO SUBSCRIBE!"); 
-        console.log(title);
-        console.log(message);
-});*/
+
+function registerEvents(){
+    subscribe("/ui/addState",newStateAdded);
+}
