@@ -33,9 +33,12 @@ Grid.initialize = function(){
 	}
 
 	if (typeof parent != 'undefined'){
-		parent.IFrameWin = window;
-		parent.subscribe = subscribe;
-		parent.notifyParent();
+		if (!parent.started){
+			parent.IFrameWin = window;
+			parent.subscribe = subscribe;
+			parent.notifyParent();
+		}
+		
 	}
 	
 	

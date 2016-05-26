@@ -59,7 +59,6 @@ Editor.create = function(){
 		// Hey y'all
 		publish("/ui/addState",[newStateConfig.id]);
 		publish("/ui/updateStateHeaders");
-		//parent.notifyParent();
 
 	};
 	Editor.dom.appendChild(addState);
@@ -288,7 +287,25 @@ Editor.createStateUI = function(stateConfig){
 		publish("/ui/updateStateHeaders");
 	};
 	stateHeader.appendChild(name);
-
+	
+	//Chart axis
+	var axis = document.createElement("select");
+	axis.name = "Axis";
+	var xaxis = document.createElement("option");
+	xaxis.value = "y-axis-0";
+	xaxis.textContent = "Left y-axis";
+	var yaxis = document.createElement("option");
+	yaxis.value = "y-axis-1";
+	yaxis.textContent = "Right y-axis";
+	axis.appendChild(xaxis);
+	axis.appendChild(yaxis);
+	
+	dom.appendChild(axis);
+	
+	axis.onchange = function(){
+		publish("/graph/axisChanged", [axis.value, stateConfig.id]);
+	}
+	
 	// Delete (except 0-blank, you CAN'T delete that)
 	if(stateConfig.id!=0){
 		var deleteDOM = document.createElement("div");
@@ -595,6 +612,7 @@ Editor.createNumber = function(actionConfig, propName, options){
 
 		// Message?
 		if(options.message) publish(options.message);
+		publish("/resizeField");
 		
 	};
 
